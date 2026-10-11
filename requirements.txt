@@ -1,8 +1,5 @@
-pandas
+
+Flask
 numpy
-matplotlib
-seaborn
-nltk
+scipy
 scikit-learn
-jupyter
-pickle-mixin
