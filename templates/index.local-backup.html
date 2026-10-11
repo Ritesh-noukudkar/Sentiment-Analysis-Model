@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentix AI | Sentiment Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0b0c12; --panel:#12141e; --line:#252837;
+  --text:#f4f5ff; --muted:#9297ae; --purple:#a78bfa;
+  --green:#4adea4; --red:#fb7185;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:'DM Sans',sans-serif;min-height:100vh;
+  background-image:radial-gradient(ellipse at 80% 0%,#38236533,transparent 40%),
+                   radial-gradient(ellipse at 0% 60%,#174d4930,transparent 35%);
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1240px;margin:auto;padding:0 30px 45px}
+nav{height:82px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700}
+.logo{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#c4b5fd,#8063ef);color:#151023;font-size:23px}
+.brand span{color:var(--purple)}
+.status{border:1px solid #4adea433;background:#4adea40d;color:var(--green);padding:8px 12px;border-radius:30px;font-size:12px;display:flex;gap:8px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.hero{padding:62px 0 38px}
+.eyebrow{color:var(--purple);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(35px,5vw,58px);letter-spacing:-2px;line-height:1.1;margin:17px 0}
+h1 span{background:linear-gradient(90deg,#c4b5fd,#8b9dff,#65e6cb);color:transparent;background-clip:text}
+.hero p{max-width:620px;color:var(--muted);font-size:15px;line-height:1.8}
+.layout{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:start}
+.panel{background:linear-gradient(145deg,#151722,#10121a);border:1px solid var(--line);border-radius:20px;padding:25px;box-shadow:0 15px 50px #00000015}
+.panel-head{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.panel-icon{width:42px;height:42px;border-radius:13px;background:#a78bfa17;border:1px solid #a78bfa35;display:grid;place-items:center;font-size:21px}
+h2{font-family:'Space Grotesk',sans-serif;font-size:18px;margin:0 0 5px}
+.sub{font-size:12px;color:var(--muted)}
+label{display:block;font-size:13px;font-weight:600;margin:18px 0 10px}
+textarea{width:100%;min-height:175px;resize:vertical;border:1px solid #303347;background:#0c0e16;border-radius:13px;color:var(--text);padding:16px;outline:none;line-height:1.7;transition:.2s}
+textarea:focus,input:focus{border-color:var(--purple);box-shadow:0 0 0 3px #a78bfa14}
+textarea::placeholder{color:#62677d}
+.helper{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:9px}
+.primary{width:100%;border:0;border-radius:12px;margin-top:18px;padding:14px;background:linear-gradient(100deg,#a78bfa,#8170f5);color:#130f22;font-weight:700;transition:.2s}
+.primary:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.primary:disabled{opacity:.6;cursor:wait;transform:none}
+.result{display:none;margin-top:20px;padding:18px;border:1px solid var(--line);border-radius:14px;background:#0d0f17}
+.result.show{display:block;animation:fade .3s ease}
+.result-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.result-label{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700}
+.pill{border-radius:30px;padding:7px 11px;font-size:11px;font-weight:700}
+.positive{color:var(--green);background:#4adea415;border:1px solid #4adea433}
+.negative{color:var(--red);background:#fb718515;border:1px solid #fb718533}
+.neutral{color:#fbbf24;background:#fbbf2415;border:1px solid #fbbf2433}
+.result-review{color:#b4b8ca;font-size:13px;line-height:1.7;margin-top:15px;overflow-wrap:anywhere}
+.upload-zone{border:1px dashed #45415f;border-radius:15px;padding:24px 15px;text-align:center;background:#a78bfa05;transition:.2s}
+.upload-zone:hover{border-color:var(--purple);background:#a78bfa0b}
+.upload-icon{font-size:30px;margin-bottom:9px}
+.upload-zone strong{display:block;font-size:13px;margin-bottom:6px}
+.upload-zone p{font-size:11px;color:var(--muted);margin:0 0 14px}
+.file-btn{display:inline-block;border:1px solid #46415e;border-radius:9px;padding:9px 14px;font-size:12px;color:#d9ceff;background:#a78bfa0c}
+#fileInput{display:none}
+.file-name{font-size:12px;color:var(--purple);margin-top:12px;overflow-wrap:anywhere}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.metric{background:#12141e;border:1px solid var(--line);border-radius:15px;padding:17px}
+.metric-top{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.metric-value{font-family:'Space Grotesk',sans-serif;font-size:29px;font-weight:700;margin-top:12px}
+.metric:nth-child(2) .metric-value{color:var(--green)}
+.metric:nth-child(3) .metric-value{color:var(--red)}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:18px;margin:33px 0 15px}
+.table-panel{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:#12141e}
+.table-head{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.table-head h2{font-size:15px}
+.secondary{border:1px solid #36394b;background:#1a1c28;color:#e3e4f1;border-radius:9px;padding:9px 12px;font-size:11px}
+.secondary:disabled{opacity:.4;cursor:not-allowed}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th{text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);background:#0e1018;padding:14px 18px}
+td{font-size:12px;padding:15px 18px;border-top:1px solid #ffffff09;line-height:1.6}
+td:first-child{color:#858aa1;width:60px}
+.review-cell{max-width:580px;overflow-wrap:anywhere}
+.empty{text-align:center;color:var(--muted);padding:35px 15px;font-size:12px}
+.message{display:none;margin-top:13px;padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.6}
+.message.show{display:block}
+.message.error{background:#fb718510;border:1px solid #fb718533;color:#fda4af}
+.message.info{background:#a78bfa10;border:1px solid #a78bfa33;color:#c4b5fd}
+footer{margin-top:35px;border-top:1px solid #ffffff12;padding-top:23px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#777c92;font-size:11px}
+footer strong{color:#c4b5fd}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:800px){.app{padding:0 17px 30px}.layout{grid-template-columns:1fr}.hero{padding-top:42px}.metrics{gap:8px}.metric{padding:13px}.metric-value{font-size:24px}.panel{padding:19px}nav{height:70px}}
+@media(max-width:400px){.status{font-size:10px;padding:7px 9px}.brand{font-size:18px}.metrics{grid-template-columns:1fr}.metric-value{margin-top:5px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav>
+    <div class="brand"><div class="logo">✳</div>DEVELOPED BY<span>RITESH NOUKUDKAR</span></div>
+    <div class="status"><span class="dot"></span> ML ENGINE · READY</div>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">✦ AI-powered text intelligence</div>
+    <h1>Understand the feeling<br>behind <span>every word.</span></h1>
+    <p>Turn customer reviews into actionable insights. Analyse individual feedback instantly or process an entire dataset using your machine learning sentiment model.</p>
+  </header>
+
+  <main>
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-icon">✎</div>
+          <div><h2>Analyse a review</h2><div class="sub">Discover the sentiment in any text</div></div>
+        </div>
+        <label for="reviewInput">Your review</label>
+        <textarea id="reviewInput" maxlength="10000" placeholder="e.g. The product quality is amazing and delivery was super fast!"></textarea>
+        <div class="helper"><span>Write naturally for better context</span><span id="charCount">0 / 10000</span></div>
+        <button class="primary" id="analyseBtn" onclick="analyseReview()">✦ &nbsp; Analyse sentiment &nbsp; →</button>
+        <div id="singleMessage" class="message error"></div>
+        <div id="singleResult" class="result">
+          <div class="result-top">
+            <div><div class="sub">PREDICTED SENTIMENT</div><div class="result-label" id="sentimentLabel">Positive</div></div>
+            <span id="sentimentPill" class="pill positive">● POSITIVE</span>
+          </div>
+          <div class="result-review" id="analysedReview"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-icon">⇧</div>
+          <div><h2>Bulk analysis</h2><div class="sub">Analyse multiple reviews in one go</div></div>
+        </div>
+        <label>Upload your dataset</label>
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-icon">☁</div>
+          <strong>Drop your file here</strong>
+          <p>Upload a CSV or TXT file containing customer reviews.</p>
+          <label for="fileInput" class="file-btn">Browse files</label>
+          <input id="fileInput" type="file" accept=".csv,.txt">
+          <div id="fileName" class="file-name"></div>
+        </div>
+        <button class="primary" id="uploadBtn" onclick="uploadFile()">▤ &nbsp; Analyse dataset &nbsp; →</button>
+        <div id="uploadMessage" class="message"></div>
+        <div class="sub" style="margin-top:15px;line-height:1.8">CSV format: include a column named <strong style="color:#d5c9ff">Review</strong>, <strong style="color:#d5c9ff">Text</strong>, <strong style="color:#d5c9ff">Comment</strong> or <strong style="color:#d5c9ff">Content</strong>. TXT files can contain one review per line.</div>
+      </section>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="metric-top">▤ &nbsp; TOTAL REVIEWS</div><div class="metric-value" id="totalCount">0</div></div>
+      <div class="metric"><div class="metric-top">↗ &nbsp; POSITIVE</div><div class="metric-value" id="positiveCount">0</div></div>
+      <div class="metric"><div class="metric-top">↘ &nbsp; NEGATIVE</div><div class="metric-value" id="negativeCount">0</div></div>
+    </div>
+
+    <div class="section-title">Analysis results <span style="color:#777c92;font-size:12px;font-family:'DM Sans',sans-serif">/ Review explorer</span></div>
+    <section class="table-panel">
+      <div class="table-head">
+        <div><h2>Review breakdown</h2><div class="sub" style="margin-top:5px">Your analysed feedback, all in one place</div></div>
+        <button class="secondary" id="downloadBtn" onclick="downloadCSV()" disabled>↓ &nbsp; Export CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Customer review</th><th>Sentiment</th></tr></thead>
+          <tbody id="resultsBody"><tr><td colspan="3" class="empty">✦<br><br>Your results will appear here after analysis.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer><div>✳ <strong> Devloped by Ritesh Noukudkar </strong> · Sentiment Intelligence Dashboard</div><div>Powered by Machine Learning · Flask API</div></footer>
+</div>
+
+<script>
+let allResults = [];
+
+const $ = id => document.getElementById(id);
+
+$('reviewInput').addEventListener('input', () => {
+  $('charCount').textContent = `${$('reviewInput').value.length} / 10000`;
+});
+$('fileInput').addEventListener('change', () => {
+  const file = $('fileInput').files[0];
+  $('fileName').textContent = file ? `✓ ${file.name}` : '';
+});
+$('reviewInput').addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') analyseReview();
+});
+
+function showMessage(id, text, type='error') {
+  const el = $(id);
+  el.textContent = text;
+  el.className = `message show ${type}`;
+}
+function clearMessage(id) {
+  $(id).className = 'message';
+}
+function sentimentClass(sentiment) {
+  const s = String(sentiment).toLowerCase();
+  if (s.includes('positive')) return 'positive';
+  if (s.includes('negative')) return 'negative';
+  return 'neutral';
+}
+function renderResults(results, replace=true) {
+  if (replace) allResults = results;
+  else allResults.push(...results);
+
+  $('totalCount').textContent = allResults.length.toLocaleString();
+  $('positiveCount').textContent = allResults.filter(r => sentimentClass(r.sentiment)==='positive').length.toLocaleString();
+  $('negativeCount').textContent = allResults.filter(r => sentimentClass(r.sentiment)==='negative').length.toLocaleString();
+  $('downloadBtn').disabled = allResults.length === 0;
+
+  const body = $('resultsBody');
+  body.replaceChildren();
+
+  allResults.forEach((item, i) => {
+    const tr = document.createElement('tr');
+    const num = document.createElement('td');
+    num.textContent = String(i + 1);
+
+    const review = document.createElement('td');
+    review.className = 'review-cell';
+    review.textContent = item.review;
+
+    const result = document.createElement('td');
+    const pill = document.createElement('span');
+    pill.className = `pill ${sentimentClass(item.sentiment)}`;
+    pill.textContent = `● ${String(item.sentiment).toUpperCase()}`;
+
+    result.appendChild(pill);
+    tr.append(num, review, result);
+    body.appendChild(tr);
+  });
+}
+async function analyseReview() {
+  const review = $('reviewInput').value.trim();
+  clearMessage('singleMessage');
+
+  if (!review) {
+    showMessage('singleMessage', 'Please enter a review before analysing.');
+    $('reviewInput').focus();
+    return;
+  }
+
+  const btn = $('analyseBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Analysing your review...';
+
+  try {
+    const response = await fetch('/predict', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({review})
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Analysis failed.');
+
+    const sentiment = data.sentiment || 'Unknown';
+    $('sentimentLabel').textContent = sentiment;
+    $('sentimentPill').className = `pill ${sentimentClass(sentiment)}`;
+    $('sentimentPill').textContent = `● ${sentiment.toUpperCase()}`;
+    $('analysedReview').textContent = `“${data.review || review}”`;
+    $('singleResult').classList.add('show');
+
+    renderResults([{review:data.review || review, sentiment}], false);
+    clearMessage('uploadMessage');
+  } catch (error) {
+    showMessage('singleMessage', error.message || 'Could not connect to the server.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✦  Analyse sentiment  →';
+  }
+}
+async function uploadFile() {
+  const file = $('fileInput').files[0];
+  clearMessage('uploadMessage');
+
+  if (!file) {
+    showMessage('uploadMessage', 'Please select a CSV or TXT file first.');
+    return;
+  }
+  const btn = $('uploadBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Processing dataset...';
+
+  try {
+    const form = new FormData();
+    form.append('file', file);
+    const response = await fetch('/upload', {method:'POST', body:form});
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Could not analyse the file.');
+
+    renderResults(data.results || [], true);
+    showMessage('uploadMessage',
+      `✓ Analysis complete — ${data.total} reviews processed successfully.`,
+      'info');
+    $('singleResult').classList.remove('show');
+  } catch (error) {
+    showMessage('uploadMessage', error.message || 'Could not connect to the server.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '▤  Analyse dataset  →';
+  }
+}
+function downloadCSV() {
+  if (!allResults.length) return;
+
+  const quote = value => `"${String(value ?? '').replace(/"/g, '""')}"`;
+  const rows = [
+    ['No.', 'Review', 'Sentiment'],
+    ...allResults.map((r, i) => [i + 1, r.review, r.sentiment])
+  ];
+  const csv = '\uFEFF' + rows.map(row => row.map(quote).join(',')).join('\r\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'sentiment_analysis_results.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+const zone = $('uploadZone');
+zone.addEventListener('dragover', e => {
+  e.preventDefault();
+  zone.style.borderColor = '#a78bfa';
+});
+zone.addEventListener('dragleave', () => zone.style.borderColor = '');
+zone.addEventListener('drop', e => {
+  e.preventDefault();
+  zone.style.borderColor = '';
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  if (!/\.(csv|txt)$/i.test(file.name)) {
+    showMessage('uploadMessage', 'Please drop a CSV or TXT file.');
+    return;
+  }
+  const transfer = new DataTransfer();
+  transfer.items.add(file);
+  $('fileInput').files = transfer.files;
+  $('fileName').textContent = `✓ ${file.name}`;
+  clearMessage('uploadMessage');
+});
+</script>
+</body>
+</html>
